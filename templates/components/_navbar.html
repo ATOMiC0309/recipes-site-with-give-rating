@@ -1,0 +1,98 @@
+{% load static %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+        <!-- Toggle button -->
+        <button
+                data-mdb-collapse-init
+                class="navbar-toggler"
+                type="button"
+                data-mdb-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Navbar brand -->
+            <a class="navbar-brand mt-2 mt-lg-0" href="{% url 'index' %}">
+                <img
+                        src="{% static 'app/img/img.png' %}"
+                        height="40px"
+                        width="100px"
+                        alt="Logo"
+                        loading="lazy"
+                />
+            </a>
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'page404' %}">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'page404' %}">Projects</a>
+                </li>
+            </ul>
+            <!-- Left links -->
+        </div>
+        <!-- Collapsible wrapper -->
+
+        <!-- Right elements -->
+        <div class="d-flex align-items-center">
+            {% if request.user.is_authenticated %}
+            <button type="button" class="btn btn-link px-3 me-2">
+                {{ request.user.username }}
+            </button>
+            <div class="dropdown">
+                <a
+                        data-mdb-dropdown-init
+                        class="dropdown-toggle d-flex align-items-center hidden-arrow"
+                        href="#"
+                        id="navbarDropdownMenuAvatar"
+                        role="button"
+                        aria-expanded="false"
+                >
+                    <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbXePCdlhikzNgQhLpzPbDtAByhHVVkmf68w4z9QACCQ&s"
+                            class="rounded-circle"
+                            height="25"
+                            alt="Black and White Portrait of a Man"
+                            loading="lazy"
+                    />
+                </a>
+                <ul
+                        class="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                    <li>
+                        <a class="dropdown-item" href="{% url 'profile' request.user.username %}">My profile</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'page404' %}">Settings</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}" type="button" class="btn btn-link px-3 me-2">
+                Sign in
+            </a>
+            <a href="{% url 'register' %}" type="button" class="btn btn-primary me-3">
+                Sign up
+            </a>
+            {% endif %}
+        </div>
+        <!-- Right elements -->
+    </div>
+    <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

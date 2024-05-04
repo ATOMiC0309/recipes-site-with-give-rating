@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Category action form
+{% endblock title %}
+{% block main %}
+<div class="d-flex justify-content-center">
+    <form method="post"
+          style="border: 2px solid gray; border-radius: 10px; margin-top: 20px; padding: 15px 15px 15px 15px">
+        {% csrf_token %}
+
+        {{ category_form.as_p }}
+        <div>
+            <button type="submit" class="btn btn-success " style="width: 44%;">
+                {% if 'category-create' in request.path %}
+                Save
+                {% else %}
+                Update
+                {% endif %}
+            </button>
+            <a href="{% url 'all_categories' %}" class="btn btn-warning " style="width: 44%; ">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock main %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+All categories
+{% endblock title %}
+
+{% block main %}
+
+<div class="card border border-primary shadow-10 " style="background-color:white;">
+    <div class="card-header d-flex justify-content-between">
+        <div>All categories</div>
+        <div class="d-flex justify-content-between">
+            {% if request.user.is_authenticated %}
+            <div><a href="{% url 'category_create' %}"><i class="fas fa-circle-plus fa-lg"
+                                                          style="margin-right: 4px"> </i>Add</a></div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="card-body">
+        {% for category in categories %}
+        {% if category.published %}
+        <div class="card border border-primary shadow-30 mb-2">
+            <div class="card-header d-flex justify-content-between">
+                <div>Direction</div>
+                <div class="d-flex justify-content-between">
+                    {% if request.user.is_authenticated %}
+                    <div><a href="{% url 'category_delete' category.pk %}" style="margin-right: 10px"><i
+                            class="far fa-trash-can fa-lg"></i></a></div>
+                    <div><a href="{% url 'category_update' category.pk %}"><i
+                            class="far fa-pen-to-square fa-lg"></i></a></div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'recipes_by_category' category.name %}">{{ category.name }}</a>
+                </h5>
+            </div>
+            <div class="card-footer">
+                <pre><b>Created:</b> {{ category.created }}</pre>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock main %}

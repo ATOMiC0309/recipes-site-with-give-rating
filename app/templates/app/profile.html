@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% block title %}
+MyProfile
+{% endblock title %}
+{% block main %}
+
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        {% if custom_user.photo %}
+                        <img src="{{ custom_user.photo.url }}"
+                             alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;">
+                        {% else %}
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbXePCdlhikzNgQhLpzPbDtAByhHVVkmf68w4z9QACCQ&s"
+                             alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;">
+                        {% endif %}
+                        <h5 class="my-3">
+                            {% if user.first_name or user.last_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                            No first and last name
+                            {% endif %}
+                        </h5>
+                        <p class="text-muted mb-1">Username: <b>{{ user.username }}</b></p>
+                        <p class="text-muted mb-4">
+                            Address:
+                            {% if custom_user.address %}
+                            {{ custom_user.address }}
+                            {% else %}
+                            No address
+                            {% endif %}
+                        </p>
+                        <div class="d-flex justify-content-center mb-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-globe fa-lg text-warning"></i>
+                                <p class="mb-0">
+                                    {% if custom_user.site %}
+                                    <a href="{{ custom_user.site }}" target="_blank">{{ custom_user.site }}</a>
+                                    {% else %}
+                                    No website
+                                    {% endif %}
+                                </p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-telegram fa-lg" style="color: #55acee;"></i>
+                                <p class="mb-0">
+                                    {% if custom_user.telegram %}
+                                    <a href="{{ custom_user.telegram }}" target="_blank">{{ custom_user.telegram }}</a>
+                                    {% else %}
+                                    No telegram username
+                                    {% endif %}
+                                </p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                                <p class="mb-0">
+                                    {% if custom_user.site %}
+                                    <a href="{{ custom_user.instagram }}" target="_blank">Instagram account here</a>
+                                    {% else %}
+                                    No instagram
+                                    {% endif %}
+                                </p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                <p class="mb-0">
+                                    {% if custom_user.facebook %}
+                                    <a href="{{ custom_user.facebook }}" target="_blank">Facebook account here</a>
+                                    {% else %}
+                                    No facebook
+                                    {% endif %}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Full Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">
+                                    {% if user.first_name or user.last_name %}
+                                    {{ user.first_name }} {{ user.last_name }}
+                                    {% else %}
+                                    No full name.
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">
+                                    Email
+                                </p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">
+                                    {% if user.email %}
+                                    {{ user.email }}
+                                    {% else %}
+                                    No email
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Phone</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">
+                                    {% if custom_user.phone %}
+                                    {{ custom_user.phone }}
+                                    {% else %}
+                                    No phone
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Mobile</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">
+                                    {% if custom_user.mobile %}
+                                    {{ custom_user.mobile }}
+                                    {% else %}
+                                    No mobile
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Address</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">
+                                    {% if custom_user.address %}
+                                    {{ custom_user.address }}
+                                    {% else %}
+                                    No address
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--                   for last recipes-->
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        {% for recipe in recipes %}
+                        <div class="col">
+                            <div class="card">
+                                {% if recipe.photo %}
+                                <img src="{{ recipe.photo.url }}" class="card-img-top" alt="Not found image!"/>
+                                {% else %}
+                                <img src="https://bitsofco.de/img/Qo5mfYDE5v-350.png" class="card-img-top"
+                                     alt="Not found image!"/>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a></h5>
+                                    <p class="card-text">
+                                        {{ recipe.content | truncatewords:10 }}
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">{{ recipe.created }}</small>
+                                        <div>{{ recipe.views_count }} <i class="far fa-eye fa-lg"
+                                                                         style="margin-right: 10px"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock main %}

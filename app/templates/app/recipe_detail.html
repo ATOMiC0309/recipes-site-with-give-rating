@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ recipe.name }}
+{% endblock title %}
+{% block main %}
+<style>
+    .rating-list li {
+      float: right;
+      color: #ddd;
+      padding: 1px 5px;
+    }
+
+    .rating-list li:hover,
+    .rating-list li:hover ~ li {
+      color: orange;
+    }
+
+    .rating-list {
+      display: inline-block;
+      list-style: none;
+    }
+    .checked {
+        color: orange;
+    }
+</style>
+
+<div class="card  mt-5">
+    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+        {% if recipe.photo %}
+        <img src="{{ recipe.photo.url }}" class="card-img-top" alt="Not found image!" width="100%"/>
+        {% else %}
+        <img src="https://bitsofco.de/img/Qo5mfYDE5v-350.png" class="card-img-top" alt="Not found image!" width="100%"/>
+        {% endif %}
+
+    </div>
+    <div class="card-header d-flex justify-content-between">
+        <div>Actions</div>
+        <div>
+            Author:
+            {% if request.user == recipe.author%}
+            <a href="{% url 'profile' recipe.author.username %}">{{ recipe.author }}</a>
+            {% else %}
+            {{ recipe.author }}
+            {% endif %}
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex mb-4" style="margin-right: 10px">
+
+                            <ul class=" list-inline rating-list">
+                                <li onclick="rate(5, {{ recipe.id }})">
+                                    <i class="fa fa-star {% if recipe.user_rating > 4 %} checked {% endif %}"
+                                       title="Rate 5"></i></li>
+                                <li onclick="rate(4, {{ recipe.id }})">
+                                    <i class="fa fa-star {% if recipe.user_rating > 3 %} checked {% endif %}"
+                                       title="Rate 4"></i></li>
+                                <li onclick="rate(3, {{ recipe.id }})">
+                                    <i class="fa fa-star {% if recipe.user_rating > 2 %} checked {% endif %}"
+                                       title="Rate 3"></i></li>
+                                <li onclick="rate(2, {{ recipe.id }})">
+                                    <i class="fa fa-star {% if recipe.user_rating > 1 %} checked {% endif %}"
+                                       title="Rate 2"></i></li>
+                                <li onclick="rate(1, {{ recipe.id }})">
+                                    <i class="fa fa-star {% if recipe.user_rating > 0 %} checked {% endif %}"
+                                       title="Rate 1"></i></li>
+                            </ul>
+                        </div>
+
+            <div>{{ recipe.views_count }} <i class="far fa-eye fa-lg" style="margin-right: 10px"></i></div>
+            {% if request.user == recipe.author %}
+            <div><a href="{% url 'recipe_delete' recipe.pk %}" style="margin-right: 10px"><i
+                    class="far fa-trash-can fa-lg"></i></a></div>
+            <div><a href="{% url 'recipe_update' recipe.pk %}"><i class="far fa-pen-to-square fa-lg"></i></a></div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ recipe.name }}</h5>
+        <p class="card-text">
+            {{ recipe.content }}
+        </p>
+
+        <a href="{% url 'index' %}" class="btn btn-primary">Back</a>
+    </div>
+    <div class="card-footer">{{ recipe.updated }}</div>
+    <div>
+
+    </div>
+</div>
+
+
+<div class="row d-flex justify-content-between mt-3">
+    <div class="col-md-8 col-lg-12">
+        <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+            <div class="card-body p-4">
+                <div data-mdb-input-init class="form-outline mb-4">
+                    {% if request.user.is_authenticated %}
+                    <form method="post" action="{% url 'save_comment' recipe.pk     %}">
+                        {% csrf_token %}
+                        <div data-mdb-input-init class="form-outline">
+                            {{ form.text }}
+                            <label class="form-label">Message</label>
+                        </div>
+                        <div class="d-flex flex-row-reverse">
+                            <input type="submit" value="Send" class="btn btn-success" style="margin-top: 4px"/>
+                        </div>
+                    </form>
+                    {% else %}
+                    <p><b>Please login first to comment.</b> <a href="{% url 'login' %}">Login here</a></p>
+                    {% endif %}
+                </div>
+                <div style="margin-bottom: 4px">All comments</div>
+                {% for comment in comments %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p><b>Comment: </b>{{ comment.text }}</p>
+
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                                <img src="https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png"
+                                     alt="avatar"
+                                     width="25"
+                                     height="25"/>
+                                <p class="small mb-0 ms-2"><b>Comment author: </b>{{ comment.commentator }}</p>
+                            </div>
+                            <div class="d-flex flex-row-reverse">
+                                <p>{{ comment.created }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const rate = (rating, post_id) => {
+        fetch(`/rate/${post_id}/${rating}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(rest => {
+            window.location.reload();
+            // you may want to update the rating here
+            // to simplify stuff, I just reload the page
+        })
+    }
+</script>
+{% endblock main %}

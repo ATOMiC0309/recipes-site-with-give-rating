@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Recipe delete
+{% endblock title %}
+
+{% block main %}
+
+<div class="d-flex justify-content-center">
+<form method="POST" style="padding: 15px 15px 15px 15px; margin-top: 20px; border: 2px solid gray; border-radius: 5px">
+    {% csrf_token %}
+    <p><b>{{ recipe.name }}</b> do you want to delete this recipe?</p>
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a href="{% url 'recipe_detail' recipe.pk %}" type="button" class="btn btn-primary">Cancel</a>
+</form>
+</div>
+{% endblock main %}
